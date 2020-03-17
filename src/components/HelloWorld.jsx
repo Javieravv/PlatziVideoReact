@@ -16,6 +16,8 @@ const HelloWorld = () => {
             </p>
             <h3>Tercer título</h3>
             <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo neque, laborum quis harum blanditiis recusandae, maiores voluptates sapiente earum ab illum. Maxime, unde assumenda libero culpa laborum iusto! Laborum provident possimus neque facilis, fugiat quas id, aspernatur illum sit aliquid sapiente quibusdam vero mollitia magnam?</p>
+            <h3>Es otro título</h3>
+            <h4>otro título</h4>
         </div>
     );
 };
