@@ -1,16 +1,14 @@
+// Este archivo de scss o de css se deberá referenciar en el componente 
+// donde vaya a usarse.
+// se emplea import 
+@import './Vars.scss';
+@import './Media.scss';
 body {
     margin: 0;
-    background-color: burlywood;
+    font-family: $theme-font;
+    background: $main-color;
 }
 
-h1 {
-    color: white;
-}
-
-h2 {
-    color: blue;
-}
-
-p {
-    font-size: 1.5em;
+* {
+    box-sizing: border-box;
 }

@@ -166,5 +166,86 @@ Usamos el comando
 npm install --save-dev eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-react eslint-plugin-jsx-a11y
 ```
 
+8.- Usamos webpack también para trabajar con las imágenes que se van a emplear en el proyecto.
+
+Instalamos un loader para los archivos, por lo cual instalamos un paquete para ello.
+
+Usamos el comando:
+
+```
+npm install --save-dev file-loader
+```
+
+Luego de ello agregamos al archivo webpack.config.js estas líneas en el lugar adecuado:
+
+```
+rules: [
+  {
+    test: /\.(png|gif|jpg)$/,
+    use: [
+      {
+        loader: 'file-loader',
+        options: { name: 'assets/[hash].[ext]' },
+      }
+    ],
+  },
+],
+```
+
+Y deberemos emplearlo referenciándolo en el componente que se necesite.
+
+```
+import <nombreimagen> <ruta de la imagen
+```
+
+9.- Específicamente para este proyecto, empleamos una API Rest para obtener datos, los cuales se traerán en formato JSON.
+
+Simulamos esa API Rest en el entoro local, para lo cual se instalará el servidor de JSON con este comando:
+
+```
+sudo npm install json-server -g
+```
+
+Debe instalarse con permisos de administrador. Por ello se emplea ``` sudo ``` en Mac o Linux.
+
+El contenido del archivo JSON lo descargamos de esta dirección: https://gist.github.com/gndx/d4ca4739450afaa614efe4570ac362ee
+
+Y creamos el archivo llamado initialState.json
+
+Luego de instalado el paquete de json-server lo debemos ejecutar enviándole el nombre del archivo json que se creó en donde estarán los datos que servirán para el ejercicio.
+
+```
+json-server initialState.json
+```
+
+Se debe correr este último comando en otra ventana diferente de la terminal, por cuanto se estarán corriendo al tiempo dos procesos: el que tiene la aplicación y el que tiene el servidor de json.
+
+10.- Se trabaja con React hooks para manejar el ciclo de vida de los componentes.
+
+11.- Instalando Protypes al proyecto.
+
+Los PropTypes son una propiedad de nuestros componentes que nos permiten especificar qué tipo de elementos son nuestras props: arrays, strings, números, etc.
+
+Por defecto, enviar todas nuestras props es opcional, pero con los propTypes podemos especificar cuáles props son obligatorias para que nuestro componente funcione correctamente con el atributo isRequired.
+
+Se instalan con el comando
+
+```
+npm install --save prop-types
+```
+
+Para usarlos se debe colocar en el archivo pertinente la líea
+
+```
+import PropTypes from 'prop-types';
+```
+
+
+
+
+
+
+
+
 
 
