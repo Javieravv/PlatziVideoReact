@@ -16,7 +16,7 @@ import '../assets/styles/App.scss'; // se recomienda usar sí la extensión.
 
 const API = 'http://localhost:3000/initialState';
 
-const App = () => {
+const Home = () => {
   // const initialState1 = JSON.parse(JSON.stringify(useInitialState(API)));
   const initialState = useInitialState(API)
 
@@ -51,5 +51,5 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;
 
