@@ -6,7 +6,7 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack --mode production",
-        "start": "webpack-dev-server --open --mode development --port 8081"
+        "start": "webpack-dev-server --open --mode development"
     },
     "repository": {
         "type": "git",
@@ -29,7 +29,9 @@
         "prop-types": "^15.7.2",
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
-        "react-router-dom": "^5.1.2"
+        "react-redux": "^7.2.0",
+        "react-router-dom": "^5.1.2",
+        "redux": "^4.0.5"
     },
     "devDependencies": {
         "@babel/core": "^7.8.7",

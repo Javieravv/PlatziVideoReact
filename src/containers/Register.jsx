@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../assets/styles/components/Register.scss';
 
 // Iniialmente creamos componente presentacional. Luego lo cambiaremos.
@@ -6,14 +7,16 @@ import '../assets/styles/components/Register.scss';
 const Register = () => (
   <section className="register">
     <section className="register__container">
-      <h2>Regístrate por favor. Gracias</h2>
+      <h2>Regístrate por favor.!</h2>
       <form className="register__container--form">
         <input className="input" type="text" placeholder="Nombre" />
         <input className="input" type="text" placeholder="Correo" />
         <input className="input" type="password" placeholder="Contraseña" />
         <button className="button">Registrarme</button>
       </form>
-      <a href="">Iniciar sesión</a>
+      <Link to='/login'>
+        Iniciar Sesión
+      </Link>
     </section>
   </section>
 );
