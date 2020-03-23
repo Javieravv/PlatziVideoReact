@@ -9,7 +9,17 @@ const reducer = (state, action) => {
                 // en myList. NO SE USA PUSH NI NADA...HAY QUE VER CÓMO ES ESTO
                 ...state,
                 myList : [...state.myList, action.payload]
-            }
+            };
+        case 'DELETE_FAVORITE' :
+            return {
+                // Se tiene en cuenta el estado que ya se tiene 
+                // !== equivale a desigualdad estricta 
+                // Eliminamos el id 
+                // En el filtro pasan todos los elementos que son diferentes al enviado por payload
+                // por eso se eliminan
+                ...state,
+                myList : state.myList.filter (items => items.id !== action.payload)
+            };
         default: 
         return state;
     }

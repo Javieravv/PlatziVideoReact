@@ -2,6 +2,18 @@
 
 Luego de crear la UI de la aplicación de Platzi Video, se agrega en este archivo las notas del curso de Router Redux.
 
+Tener en cuenta que dentro del lenguaje JSX se puede manejar una lógica ternaria, para evaluar una condición, así:
+
+```
+{
+  condicion
+  ?
+     se ejecuta si es verdadero
+  :
+     se ejecuta si es falso
+}
+```
+
 ## Creación de nueva rama en GitHub e instalación de Router Redux.
 
 Creamos una nueva rama en Git para este nuevo curso, manteniendo lo que ya se tenía y se instala el paquete de Router Redux como una dependencia de desarrollo.
