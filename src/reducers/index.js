@@ -1,3 +1,6 @@
+// Los reducers manejan la información de la aplicación y la ponen en el 
+// estado de esta.
+
 const reducer = (state, action) => {
     // Hacemos un switch, que recibe el type y lo evalúa dentro de un caso para 
     // saber qué hacer con el estado.
@@ -19,6 +22,12 @@ const reducer = (state, action) => {
                 // por eso se eliminan
                 ...state,
                 myList : state.myList.filter (items => items.id !== action.payload)
+            };
+        case 'LOGIN_REQUEST' : 
+            return {
+                // ponemos la información del usuario en el state
+                ...state,
+                user: action.payload,
             };
         default: 
         return state;

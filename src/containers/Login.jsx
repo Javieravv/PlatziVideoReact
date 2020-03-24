@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { loginRequest} from '../actions';
 import '../assets/styles/components/Login.scss';
 import googleIcon from '../assets/static/google-icon.png';
 import twitterIcon from '../assets/static/twitter-icon.png';
 
 // Inicialmente se crea un componente presentacional. Luego se cambia el tipo de componente 
 
-const Login = () => {
+const Login = props => {
   // En una constante se trae el formulario y la función para guardar 
   // esos valores
   // Se desestructuran estas dos constantes, pues vienen del estado
@@ -30,6 +32,8 @@ const Login = () => {
   const handleSubmit = event => {
     event.preventDefault (); // para evitar comportamiento por default del formulario
     console.log (form);
+    props.loginRequest(form); // enviamos la información del formulario al state o estado
+    //props.history.push('/'); // enviamos al usuario al home
   };
 
   return (
@@ -81,4 +85,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = {
+  loginRequest,
+};
+
+export default connect (null, mapDispatchToProps)(Login);

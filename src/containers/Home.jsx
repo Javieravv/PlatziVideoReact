@@ -12,7 +12,7 @@ import '../assets/styles/App.scss'; // se recomienda usar sí la extensión.
 // Aquí pasamos componentes anidados, siendo uno hijo del otro.
 // Con react Hook podemos traer la información de los videos e iterar sobre lo que se trae.
 
-const Home = ({ myList, trends, originals }) => {
+const Home = ({ myList, trends, originals, user }) => {
   // const initialState1 = JSON.parse(JSON.stringify(useInitialState(API)));
   return (
     <>
@@ -58,6 +58,7 @@ const Home = ({ myList, trends, originals }) => {
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     myList: state.myList,
     trends: state.trends,
     originals: state.originals,
