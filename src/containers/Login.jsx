@@ -33,7 +33,7 @@ const Login = props => {
     event.preventDefault (); // para evitar comportamiento por default del formulario
     console.log (form);
     props.loginRequest(form); // enviamos la información del formulario al state o estado
-    //props.history.push('/'); // enviamos al usuario al home
+    props.history.push('/'); // enviamos al usuario al home
   };
 
   return (

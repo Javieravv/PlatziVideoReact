@@ -243,21 +243,15 @@ mapStateToprops es una función que traerá los props del estado dela aplicació
 
 Para esto deberemos trabajar con los actions y los reducers de la aplicación.
 
+## Instalación de MD5
+
+Esta librería se utiliza con Gravatar.js para crear un hash que tiene relación con la imagen del usuario que se va a mostrar. Se crea dicho hash, que es criptografìa, a partir del mail que se le de.
 
 
+Para instalarlo:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
+npm install md5 --save
+```
 
 
