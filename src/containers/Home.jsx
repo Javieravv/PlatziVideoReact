@@ -16,7 +16,7 @@ const Home = ({ myList, trends, originals, user }) => {
   // const initialState1 = JSON.parse(JSON.stringify(useInitialState(API)));
   return (
     <>
-      <Search />
+      <Search isHome />
       {myList.length > 0 &&
         <Catetories title="Tendencias">
           <Carousel>

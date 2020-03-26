@@ -254,4 +254,13 @@ Para instalarlo:
 npm install md5 --save
 ```
 
+## Instalamos classNames.
+
+Instalamos este paquete para que sea posible manejar las clases de HTML desde React.
+
+```
+npm install classnames --save
+```
+
+
 

@@ -17,3 +17,14 @@ export const logoutRequest = payload => ({
   type: 'LOGOUT_REQUEST',
   payload,
 });
+
+// Trae la información de inputs y la pasa al reducer, que la pasa a los estados. 
+export const registerRequest = payload => ({
+  type: 'REGISTER_REQUEST',
+  payload,
+});
+
+export const getVideoSource = payload => ({
+  type: 'GET_VIDEO_SOURCE',
+  payload,
+})
