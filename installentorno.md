@@ -111,7 +111,7 @@ npm install --save-dev webpack-dev-server
 En package.json se agrega a ```scripts``` esta línea: 
 
 ```
-    "start": "webpack-dev-server --open --mode development"
+"start": "webpack-dev-server --open --mode development"
 
 ```
 
@@ -172,6 +172,9 @@ En caso de necesitarse:
 ```
 sudo npm install json-server -g
 ```
+Para ejecutarlo se usa, en una ventana aparte de la terminal, el comando:
+
+```json-server <arhivojson.json>```
 
 ### 10.- Instalación de Protypes para react
 
@@ -207,7 +210,7 @@ Para crear una nueva rama del proyecto:
 
 ```git checkout -b <nombre rama> ```
 
-### Estructura de los directorios que debe manejar la aplicación:
+## Estructura de los directorios que debe manejar la aplicación:
 
 La estructura de archivos que debe manejar el proyecto será esta:
 
