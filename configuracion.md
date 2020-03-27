@@ -240,12 +240,3 @@ Para usarlos se debe colocar en el archivo pertinente la líea
 import PropTypes from 'prop-types';
 ```
 
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-// Creamos refernicas a plugins que se emplearan para la compilación del proyecto
+// Creamos referencias a plugins que se emplearan para la compilación del proyecto
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');

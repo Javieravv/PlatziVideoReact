@@ -41,7 +41,6 @@ const App = () => (
 );
 
 export default App;
-
 ```
 
 Con Route creamos todas las rutas necesarias, apuntando a los componentes que se quieran emplear.
@@ -66,10 +65,13 @@ module.exports = {
 Permite no añadier más elementos al DOM, como div, header, h1, etc., 
 
 Se usan con 
-´´´
-<React.fragment></React.fragment>
+```
+<React.fragment>
+
+</React.fragment>
 ```
 o con
+
 ```
 <>
 </>
@@ -102,9 +104,8 @@ const Layout = ( {children} ) => (
 
 export default Layout;
 ```
-Luego lo tenemos en ecuenta en el archivo de rutas y lo encapsulamos dentro del Switch, así:
 
-```
+Luego lo tenemos en ecuenta en el archivo de rutas y lo encapsulamos dentro del Switch, así:
 
 ## Cómo se manejan los enlaces o Links en React
 
@@ -119,7 +120,7 @@ Para usarlo, se emplean estas líneas:
 <Link to='<ruta>'>
   ...Lo que se va a mostrar
 </Link>
-´´´ 
+```
 Se recomienda el uso de este componente Link y no usar la etiqueta ```<a> Link </a> ``` porque con esta última la aplicación se renderiza, lo cual no es aconseajado.
 
 # Redux
@@ -155,13 +156,14 @@ Se deben crear dos carpetas para que contengan los actions y los reducers. Estas
 En cada una de esas carpetas se creará un archivo llamado ```index.js```.
 
 Luego lo añadimos al proyecto principal, en el archivo ```index.js``` principal de la aplicación.
+
 Ello permite conectar la aplicación con React Redux, que dará un provider que permite encapsular los componentes por medio de un conect, que tendrá toda la información del store que se transmite a los componentes.
+
 Así se puede tener la informacion del estado en todos los componentes.
 
 ```
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-
 ```
 Después se inicialiar la aplicación con el Provider, así:
 
@@ -241,12 +243,11 @@ mapStateToprops es una función que traerá los props del estado dela aplicació
 
 ## Manejo del flujo de la Información.
 
-Para esto deberemos trabajar con los actions y los reducers de la aplicación.
+Para esto deberemos trabajar con los ```_actions_``` y los ```reducers``` de la aplicación.
 
 ## Instalación de MD5
 
 Esta librería se utiliza con Gravatar.js para crear un hash que tiene relación con la imagen del usuario que se va a mostrar. Se crea dicho hash, que es criptografìa, a partir del mail que se le de.
-
 
 Para instalarlo:
 
