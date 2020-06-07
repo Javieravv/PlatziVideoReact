@@ -1,13 +1,14 @@
 // Creamos referencias a plugins que se emplearan para la compilación del proyecto
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: ['./src/frontend/index.js', 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=2000&reload=true'],
+    mode: 'development',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: 'assets/app.js',
         publicPath: '/',
     },
     resolve: {
@@ -50,12 +51,9 @@ module.exports = {
        inline: true,
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: './public/index.html',
-            filename: './index.html',
-        }),
+        new webpack.HotModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
-            filename: 'assets/[name].css'
+            filename: 'assets/app.css'
         }),
     ],
 };
