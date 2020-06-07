@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import { connect } from 'react-redux';
 import Search from '../components/Search';
 import Catetories from '../components/Categories';
@@ -17,52 +18,52 @@ const Home = ({ myList, trends, originals, user }) => {
   return (
     <>
       <Search isHome />
-      {myList.length > 0 &&
-        <Catetories title="Mi lista">
+      {myList.length > 0 && (
+        <Catetories title='Mi lista'>
           <Carousel>
-            {myList.map(item =>
+            {myList.map((item) => (
               <CarouselItem
                 key={item.id}
                 {...item}
                 isList
               />
-            )}
+            ))}
           </Carousel>
         </Catetories>
-      }
-      <Catetories title="Tendencias">
+      )}
+      <Catetories title='Tendencias'>
         <Carousel>
-          {trends.map(item =>
+          {trends.map((item) => (
             <CarouselItem
               key={item.id}
               {...item}
 
             />
-          )}
+          ))}
         </Carousel>
       </Catetories>
-      <Catetories title="Originales de Platzi Video">
+      <Catetories title='Originales de Platzi Video'>
         <Carousel>
-          {originals.map(item =>
+          {originals.map((item) => (
             <CarouselItem
               key={item.id}
               {...item}
-
             />
-          )} />
+          ))}
+          {' '}
         </Carousel>
       </Catetories>
     </>
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.user,
     myList: state.myList,
     trends: state.trends,
     originals: state.originals,
-  }
+  };
 };
 
 export default connect(mapStateToProps, null)(Home);

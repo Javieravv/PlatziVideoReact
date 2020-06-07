@@ -6,12 +6,12 @@
 require('ignore-styles');
 
 require('@babel/register')({
-   presets: ['@babel/preset-env', '@babel/preset-react']
+   presets: ['@babel/preset-env', '@babel/preset-react'],
 });
 
 require('asset-require-hook')({
    extensions: ['jpg', 'png', 'gif'],
-   name: '/assets/[hash].[ext]'
+   name: '/assets/[hash].[ext]',
 });
 
 // llamamos al archivo server.js donde estará toda la lógica del curso.

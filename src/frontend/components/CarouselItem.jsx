@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { setFavorite, deleteFavorite } from '../actions';
 import '../assets/styles/components/CarouselItem.scss';
@@ -21,8 +21,9 @@ const CarouselItem = (props) => {
         title,
         year,
         contentRating,
-        duration
-      });
+        duration,
+      },
+    );
   };
 
   const handleDeleteFavorite = (itemId) => {
@@ -30,45 +31,46 @@ const CarouselItem = (props) => {
   };
 
   return (
-    <div className="carousel-item">
+    <div className='carousel-item'>
       <img
-        className="carousel-item__img"
+        className='carousel-item__img'
         src={cover}
         alt={title}
       />
-      <div className="carousel-item__details">
+      <div className='carousel-item__details'>
         <div>
           <Link to={`/player/${id}`}>
             <img
-              className="carousel-item__details--img"
+              className='carousel-item__details--img'
               src={playIcon}
-              alt="Play Icon"
+              alt='Play Icon'
             />
           </Link>
-          {isList ?
+          {isList ? (
             <img
-              className="carousel-item__details--img"
+              className='carousel-item__details--img'
               src={removeIcon}
-              alt="Remove Icon"
+              alt='Remove Icon'
               onClick={() => handleDeleteFavorite(id)}
             />
-            :
-            <img
-              className="carousel-item__details--img"
-              src={plusIcon}
-              alt="Plus Icon"
-              onClick={handleSetFavorite}
-            />
-          }
+          ) :
+            (
+              <img
+                className='carousel-item__details--img'
+                src={plusIcon}
+                alt='Plus Icon'
+                onClick={handleSetFavorite}
+              />
+            )}
         </div>
-        <p className="carousel-item__details--title">{title}</p>
-        <p className="carousel-item__details--subtitle">
+        <p className='carousel-item__details--title'>{title}</p>
+        <p className='carousel-item__details--subtitle'>
           {`${year} ${contentRating} ${duration}`}
         </p>
       </div>
     </div>
   );
-}
+};
 
 CarouselItem.propTypes = {
   cover: PropTypes.string,

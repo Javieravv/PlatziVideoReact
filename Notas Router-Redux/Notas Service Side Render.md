@@ -356,6 +356,233 @@ Pueden actualizar con: ```npm install react-router-dom```.
 
 Ajustes para que los assets se carguen bien en el servidor y se envíen al cliente. Haremos uso de una dependencia llamada _asset-require-hook_ que permite hacer bind en tiempo real de las rutas a las que referencirarme en express.
 
+**Notas importantes: **
+
+1. Al parecer hay un problema con el archivo _file-loader_ de npm, pues al desactivar el JavaScript deja de cargar las imágenes. Según leí en un comentario, eso se debe a la versión. Revisando veo que la versión que tiene Platzi es mucho menor a la que se instaló.
+
+2. Cuando se desactiva el JavaScript y se recarga la página, no se dibujan ni el header ni el footer.
+
+## Hydrate y estado de Redux desde Express
+
+Debemos hidratar todos los eventos necesarios para que sea perfecto el proceso de renderización del lado del servidor al cliente.
+
+Para ello modificamos el archivo _index.js_ de la aplicación, para cambiar _ReactDOM.render_ por _ReactDOM.Hydrate_.
+
+También se deberá mejorar la carga del initialState, pues se carga tanto en el servidor como en el cliente. Para ello se usa un _preloadedState_, 
+
+## Configurando nuestro servidor para producción
+
+Debemos hacer configuraciones en webpack y en el servidor para que todo funciones muy fluido y OK.
+
+Esta información deberá quedar en el directorio _/src/server/public_
+
+Debemos instalar el paquete [helmet](https://helmetjs.github.io/) que ayuda a asegurar a express con varios middlware para proteger la aplicación. Ayudará, aunque no esuna bala de plata.
+
+```npm install helmet```
+
+En la carpeta gitignore debemos añadir el directorio server/public
+
+Los cambios hechos en el archivo _server.js_ se ven así:
+
+```
+import express from 'express';
+import dotenv from 'dotenv'; // variables de entorno
+import webpack from 'webpack';
+import helmet from 'helmet';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { renderRoutes } from 'react-router-config';
+import { StaticRouter } from 'react-router-dom';
+import serverRoutes from '../frontend/routes/serverRoutes';
+import reducer from '../frontend/reducers';
+import  initialState from '../frontend/initialState';
+
+dotenv.config(); // busca el archivo .env y tomas sus variables
+
+const { ENV, PORT } = process.env;
+const app = express();
+
+if (ENV === 'development') {
+    console.log('Development config');
+    const webpackconfig = require('../../webpack.config');
+    const webpackDevMiddleware = require('webpack-dev-middleware');
+    const webpackHotMiddleware = require('webpack-hot-middleware');
+    const compiler = webpack(webpackconfig);
+    const ServerConfig = {
+        port: PORT,
+        hot: true
+    };
+    app.use(webpackDevMiddleware(compiler, ServerConfig));
+    app.use(webpackHotMiddleware(compiler)); // ayuda a hacer el hbot mode replacement
+} else {
+    // para producción
+    // configuramos carpeta pública a donde enviaremos todo el bundle que webpack genera
+    app.use(express.static(`${__dirname}/public`));
+    app.use(helmet());
+    // Bloqueamos los Cross Domain Policies que consumen ancho de banda excesivo. Como adobe o flash
+    app.use(helmet.permittedCrossDomainPolicies());
+    // deshabilitamos una cabecera para evitar que el navegador sepa que nos estamos conectando desde express
+    // y evitar ataques indeseados.
+    app.disable('x-powered-by');
+}
+
+const setResponse = (html, preloadedState) => {
+    return (`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <title>Primera app con React y SSR1</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="assets/app.css" type="text/css">
+        </head>
+
+        <body>
+            <div id="root">${html}</div>
+            <script>
+                window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g,'\\u003c')}
+            </script>
+            <script src="assets/app.js" type="text/javascript"></script>
+        </body> 
+
+        </html>
+    `);
+};
+
+// Esta función ayuda a renderizar la aplicación
+const renderApp = (req, res) => {
+    const store = createStore (reducer, initialState);
+    const preloadedState = store.getState();
+    const html = renderToString (
+        <Provider store = {store}>
+            <StaticRouter location={req.url} context={{}}>
+                
+                {renderRoutes(serverRoutes)}
+            </StaticRouter>
+        </Provider>
+    );
+    res.send( setResponse(html, preloadedState) );
+};
+
+// Llamamos a una ruta
+app.get('*', renderApp);
+
+app.listen(PORT, (err) => {
+    if (err) console.log(err);
+    else console.log(`Server running on  port ${PORT}...`);
+});
+
+```
+
+## Configurando webpack para producción
+
+Aquí configuraremos los assets generados desde webpack. Usaremos el dotenve. Para ello deberemos modificar el script de build en package.json.
+
+También se eliminará el comando "start", pues ya no es necesario. (Aunque para efectos de estudio se conserva).
+
+En el archivo _webpack.config.js_ se deberá tener en cuenta si estamos en entorno de desarrollo o de producción, para llamar o no ciertos plugins.
+
+Para validar que todo corra bien, en el archivo _.env_ cambiamos el valor de la variable ENV de _development_ a _production_.
+
+El puerto lo cambiamos a 3001 o a cualquier otro.
+
+```
+ENV=production
+PORT=3001
+```
+
+## Optimización del Build
+
+mimifamos màs los archivos.
+
+Eliminamos del _package.json_ cualquier referencia a Html-loader. Quitamos las líneas correspondientes y luego ejecutamos de nuevo ```npm install```
+
+Instalamos el paquete _compression-webpack-plugin_ en modo de desarrollo.
+
+```npm install compression-webpack-plugin --save-dev``` 
+
+Ayuda a que todos los assets sean comprimidos y puedan tener un peso adecuado para cuando se carguen a producción.
+
+Agregamos el plugin _terser_ que ayuda también a la mimificación de los archivos, así: ```npm install terser-webpack-plugin --save-dev```
+
+## Aplicar hashes al nombre de nuestros builds
+
+Es agregar un identiicador único a cada archivo para que el navegador los lea. Si hay una nueva versión de la aplicación el navegador lea el último y no uno que ya tiene en caché.
+
+Instalamos el paquete webpack-manifest-plugin que vamos a usar solo en entornos de producción. Cuando se compila la aplicación crea un archivo json en donde muestra toda la información de los archivos generados en producción.
+
+Para acceder a esa información se crea una función en la carpeta server, en el archivo _getManifest.js_
+
+```
+import fs from 'fs';
+
+const getManifest = () => {
+    try {
+        return JSON.parse(fs.readFileSync(`${__dirname}/public/manifest.json`));
+    } catch (error) {
+        console.log('se ha producido un error....', error);
+    }
+};
+
+export default getManifest;
+```
+
+Para usarla en el archivo _server.js_ buscamos y usamos un middlware
+
+## Vendorfiles en Webpack: definiendo cacheGroups
+
+Estrategias para vendorfiles, para extraer archivos y separar la lògi a de programación en un archivo vendor que se carga de manera distinta.
+
+Se modificará el _webpack.config.js_, en optimization, cuidadno del uso de camel case. En el archivo de configuración irá así esta parte:
+
+```
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+        splitChunks: {
+            chunks: async,
+            name: true,
+            cacheGroups: {
+                vendors: {
+                    name: 'vendors',
+                    chunks: 'all',
+                    reuseExistingchunk: true,
+                    priority: 1,
+                    filename: isDev ? 'assets/vendor.js' : 'assets/vendor-[hash].js',
+                    enforce: true
+                }
+            }
+        },
+    },
+```
+
+[Por qué razón se hace Spliting con webpack](https://medium.com/hackernoon/the-100-correct-way-to-split-your-chunks-with-webpack-f8a9df5b7758)
+
+## Vendorfiles en Webpack: generando el vendorfile
+
+
+## Configuración de ESLint
+
+Esta configuración permite encontrar errores en el código, corregirlos y así tener el proyecto bien. Esto garantiza que el código sea entendible, sobre todo cuando hay equipos de desarrolladores, lo cual implica que todos deban trabajar de manera similar.
+
+Los configuramos desde el lado de webpack, para que cuando se compile la aplicación los encuentre y permita corregirlos.
+
+Debemos instalar los paquetes ```eslint-loader ``` y ```eslint``` en modo de desarrollo.
+
+Luego se ejecuta el escript de start:dev y nos mostrará los distintos errores que encuentra.
+
+Para solucionar todos los errores definimos una regla en el _package.json_.
+
+```"lint": "eslint src/fronted --ext .js --ext .jsx --fix"```
+
+
+
+
+
+
+
 
 
 
